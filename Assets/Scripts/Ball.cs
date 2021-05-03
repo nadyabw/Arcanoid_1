@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class Ball : MonoBehaviour
 {
     #region Variables
 
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float speed;
-    [SerializeField] private Vector2 direction;
+    [SerializeField] private float speedValue = 7f;
+    [SerializeField] private float forceValue = 1.5f;
     [SerializeField] private Transform padTransform;
     
-    
-
     private bool isStarted;
 
     #endregion
@@ -25,14 +23,12 @@ public class Ball : MonoBehaviour
     {
         if (!isStarted)
         {
-            // Move with pad
             Vector3 padPosition = padTransform.position;
             padPosition.y = transform.position.y;
 
             transform.position = padPosition;
-            
-            // If press left button
-            //// Start ball
+
+
             if (Input.GetMouseButtonDown(0))
             {
                 StartBall();
@@ -40,9 +36,8 @@ public class Ball : MonoBehaviour
         }
         else
         {
-            rb.velocity = speed * (rb.velocity.normalized);
+            rb.velocity = speedValue * (rb.velocity.normalized);
         }
-       
     }
 
     #endregion
@@ -52,9 +47,18 @@ public class Ball : MonoBehaviour
 
     private void StartBall()
     {
-        Vector2 force = direction * speed;
-        rb.AddForce(force);
         isStarted = true;
+        float forceX = Random.Range(forceValue * 0.2f, forceValue * 0.6f);
+        int randDir = Random.Range(0, 2);
+        if (randDir == 0)
+        {
+            forceX *= -1f;
+        }
+
+        float forceY = Mathf.Sqrt((forceValue * forceValue) - (forceX * forceX));
+
+        Vector2 force = new Vector2(forceX, forceY) * speedValue;
+        rb.AddForce(force);
     }
 
     #endregion

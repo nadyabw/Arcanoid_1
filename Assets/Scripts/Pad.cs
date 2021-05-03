@@ -1,41 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Pad : MonoBehaviour
 {
-    private float horizontalLimit;
-
-    private void Start()
-    {
-        // размер (Х на У) экрана в юнитах(клетках)
-        Vector2 screenSizeWorld = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-        // ширина ракетки в юнитах(клетках)
-        float padWidthWorld = GetComponent<BoxCollider2D>().bounds.size.x;
-
-        horizontalLimit = screenSizeWorld.x - padWidthWorld / 2;
-    }
+    #region Unity lifecycle
 
     private void Update()
     {
-        UpdatePosition();
+       
+       Vector3 positionInPixels = Input.mousePosition;
+       Vector3 positionInWorld = Camera.main.ScreenToWorldPoint(positionInPixels);
+
+       Vector3 padPosition = positionInWorld;
+       padPosition.y = transform.position.y;
+       
+       transform.position = padPosition;
     }
 
-    private void UpdatePosition()
-    {
-        Vector3 pixelsPos = Input.mousePosition;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(pixelsPos);
-
-        Vector3 padPos = new Vector3(worldPos.x, transform.position.y, 0);
-
-        if (padPos.x < -horizontalLimit)
-        {
-            padPos.x = -horizontalLimit;
-        }
-        else if (padPos.x > horizontalLimit)
-        {
-            padPos.x = horizontalLimit;
-        }
-
-        transform.position = padPos;
-    }
+    #endregion
 }

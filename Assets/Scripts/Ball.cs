@@ -1,49 +1,61 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float speedValue;
-    [SerializeField] private float forceValue;
-    [SerializeField] private Transform padTransform;
+    #region Variables
 
-    private bool isStarted = false;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float speed;
+    [SerializeField] private Vector2 direction;
+    [SerializeField] private Transform padTransform;
+    
+    
+
+    private bool isStarted;
+
+    #endregion
+
+
+    #region Unity lifecycle
 
     private void Update()
     {
         if (!isStarted)
         {
-            Vector3 pos = transform.position;
-            pos.x = padTransform.position.x;
-            transform.position = pos;
+            // Move with pad
+            Vector3 padPosition = padTransform.position;
+            padPosition.y = transform.position.y;
 
-            if(Input.GetMouseButtonDown(0))
+            transform.position = padPosition;
+            
+            // If press left button
+            //// Start ball
+            if (Input.GetMouseButtonDown(0))
             {
                 StartBall();
             }
         }
-
-        rb.velocity = speedValue * (rb.velocity.normalized);
+        else
+        {
+            rb.velocity = speed * (rb.velocity.normalized);
+        }
+       
     }
+
+    #endregion
+
+
+    #region Private methods
 
     private void StartBall()
     {
-        isStarted = true;
-        float forceX = Random.Range(forceValue / 5, forceValue / 2);//сила по х 
-        int randDir = Random.Range(0, 2); // случайной число
-        if(randDir == 0)
-        {
-            forceX *= -1f;
-        }
-
-        float forceY = Mathf.Sqrt((forceValue * forceValue) - (forceX * forceX)); // квадрат 
-
-        Vector2 force = new Vector2(forceX, forceY) * speedValue;
+        Vector2 force = direction * speed;
         rb.AddForce(force);
+        isStarted = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Game.Instance.HandleBallLoss();
-    }
+    #endregion
 }

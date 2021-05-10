@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7702731832838481774}
-  gameSpeed: 15
+  gameSpeed: 9
   startForceValue: 350
   startOffsetY: -3.1
   padTransform: {fileID: 0}

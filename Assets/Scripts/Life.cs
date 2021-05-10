@@ -17,6 +17,7 @@ public class Life : MonoBehaviour
     #region Properties
 
     public int OffsetBetweenX => offsetBetweenX;
+   
 
     public RectTransform RectTransform => rectTransform;
     

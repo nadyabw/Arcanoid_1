@@ -5,7 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     #region Variables
-    // [SerializeField] private Life lifeImagePrefab;
+   
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private int NumberHit;
     [SerializeField] private int scoreForDestroy;
@@ -42,7 +42,7 @@ public class Block : MonoBehaviour
             blockCollider = GetComponent<Collider2D>();
             SetAccessible(false); 
         }
-        OnCreate?.Invoke(isUnderstroyable); // ??
+        OnCreate?.Invoke(isUnderstroyable); 
     }
 
     #endregion

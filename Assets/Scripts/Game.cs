@@ -180,8 +180,8 @@ public class Game : MonoBehaviour
             {
                 if (i >= lifesLeft)
                 {
-                    Life li = lifes[i];
-                    li.SetAvailable(false);
+                    Life l = lifes[i];
+                    l.SetAvailable(false);
                 }
             }
         }

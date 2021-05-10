@@ -48,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -121,10 +122,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74c4f339b5fe0c44787e00429df17014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeImagePrefab: {fileID: 0}
   spriteRenderer: {fileID: 3587243813366578656}
-  NumberHit: 3
-  scoreForDestroy: 15
+  NumberHit: 0
+  scoreForDestroy: 0
   stateSprites:
   - {fileID: 21300000, guid: 56c6bdf1652b03a45b5d3beb655b5748, type: 3}
   - {fileID: 21300000, guid: 641ce01cb2e24684c9f5ebbc1c140523, type: 3}
   - {fileID: 21300000, guid: d0365ca7a0dc2f94f9be120793d3f5ed, type: 3}
+  isUnderstroyable: 1
+  isInvisible: 0

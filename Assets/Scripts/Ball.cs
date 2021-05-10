@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class Ball : MonoBehaviour
@@ -8,23 +6,37 @@ public class Ball : MonoBehaviour
     #region Variables
 
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float speedValue = 7f;
-    [SerializeField] private float forceValue = 1.5f;
-    [SerializeField] private Transform padTransform;
+    [SerializeField] private float gameSpeed = 7f;
+    [SerializeField] private float startForceValue = 350f;
+    [SerializeField] private float startOffsetY = -3.1f;
     
+    [SerializeField] private Transform padTransform;
+    [SerializeField] private TrailRenderer trailRenderer;
+
+    [SerializeField] private Vector2 minRandomDirection = new Vector2(-1f, 1f);
+    [SerializeField] private Vector2 maxRandomDirection = new Vector2(0.85f, 1f);
+
     private bool isStarted;
 
     #endregion
 
-
     #region Unity lifecycle
+
+    private void Start()
+    {
+        trailRenderer.enabled = false;
+    }
 
     private void Update()
     {
+        if (Game.IsPaused)
+        {
+            return;
+        }
         if (!isStarted)
         {
             Vector3 padPosition = padTransform.position;
-            padPosition.y = transform.position.y;
+            padPosition.y = startOffsetY;
 
             transform.position = padPosition;
 
@@ -34,30 +46,29 @@ public class Ball : MonoBehaviour
                 StartBall();
             }
         }
-        else
-        {
-            rb.velocity = speedValue * (rb.velocity.normalized);
-        }
     }
 
     #endregion
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(isStarted)
+        {
+            rb.velocity = gameSpeed * (rb.velocity.normalized);
+        }
+    }
 
     #region Private methods
 
     private void StartBall()
     {
         isStarted = true;
-        float forceX = Random.Range(forceValue * 0.2f, forceValue * 0.6f);
-        int randDir = Random.Range(0, 2);
-        if (randDir == 0)
-        {
-            forceX *= -1f;
-        }
+        trailRenderer.enabled = true;
 
-        float forceY = Mathf.Sqrt((forceValue * forceValue) - (forceX * forceX));
+        float dirX = Random.Range(minRandomDirection.x, maxRandomDirection.x);
+        float dirY = Random.Range(minRandomDirection.y, maxRandomDirection.y);
 
-        Vector2 force = new Vector2(forceX, forceY) * speedValue;
+        Vector2 force = (new Vector2(dirX, dirY).normalized) * startForceValue;
         rb.AddForce(force);
     }
 

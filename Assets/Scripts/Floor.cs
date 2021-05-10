@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Floor : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static event Action<GameObject> onBallLoss; 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        onBallLoss?.Invoke(other.gameObject);
+        Destroy(other.gameObject);
     }
 }
